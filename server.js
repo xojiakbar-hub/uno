@@ -64,6 +64,21 @@ function play(room,socket,index,color){
   emitRoom(room);sendHands(room);
 }
 io.on("connection",socket=>{
+  socket.on("restartGame",()=>{
+  const room=[...rooms.values()].find(r=>
+    r.players.some(p=>p.id===socket.id)
+  );
+
+  if(!room  !room.game  !room.game.winner) return;
+
+  if(room.host!==socket.id) {
+    return socket.emit("notice","Faqat xona egasi qayta boshlashi mumkin.");
+  }
+
+  startGame(room);
+  emitRoom(room);
+  sendHands(room);
+});
   socket.on("createRoom",({name})=>{
     let code;do{code=roomCode();}while(rooms.has(code));
     const player={id:socket.id,name:String(name||"Player").slice(0,18)};
