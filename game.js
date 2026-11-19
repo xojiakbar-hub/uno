@@ -10,8 +10,15 @@ $("restart").onclick=()=>{
   if(state?.winner){
     socket.emit("restartGame");
   } else {
-    location.reload();
+    toast("O‘yin tugagandan keyin qayta boshlash mumkin.");
   }
+};
+
+$("exit").onclick=()=>{
+  if(confirm("Xonadan chiqmoqchimisiz?")){
+    socket.emit("leaveRoom");
+  }
+};
 };
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("codeText").textContent);toast("Xona kodi nusxalandi!")}catch(e){toast("Kod: "+$("codeText").textContent)}};
 socket.on("connect",()=>myId=socket.id);
