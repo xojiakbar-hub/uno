@@ -64,6 +64,30 @@ function play(room,socket,index,color){
   emitRoom(room);sendHands(room);
 }
 io.on("connection",socket=>{
+  socket.on("leaveRoom",()=>{
+  const room=[...rooms.values()].find(r=>
+    r.players.some(p=>p.id===socket.id)
+  );
+
+  if(!room) return;
+
+  room.players=room.players.filter(p=>p.id!==socket.id);
+
+  socket.leave(room.code);
+
+  if(room.players.length===0){
+    rooms.delete(room.code);
+  } else {
+    if(room.host===socket.id){
+      room.host=room.players[0].id;
+    }
+    room.game=null;
+    emitRoom(room);
+    sendHands(room);
+  }
+
+  socket.emit("leftRoom");
+});
   socket.on("restartGame",()=>{
   const room=[...rooms.values()].find(r=>
     r.players.some(p=>p.id===socket.id)
