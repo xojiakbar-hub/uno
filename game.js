@@ -48,3 +48,6 @@ function renderHand(){
 document.querySelectorAll("#colors button").forEach(b=>b.onclick=()=>{if(pendingWild>=0){socket.emit("playCard",{index:pendingWild,color:b.dataset.color});pendingWild=-1;show("colors",false);}});
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 if(window.Telegram?.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();try{Telegram.WebApp.setHeaderColor("#071e22");Telegram.WebApp.setBackgroundColor("#071e22");}catch(e){}}
+socket.on("leftRoom",()=>{
+  location.reload();
+});
