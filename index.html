@@ -13,4 +13,18 @@
 <div class="players" id="players"></div><div class="table"><div class="turn" id="turn">Navbat...</div><div class="center"><button id="draw" class="deck">UNO<br><small>KARTA OLISH</small></button><div class="discard" id="discard"></div></div><div id="status" class="msg">O‘yin boshlandi</div><div id="colors" class="colors hidden"><span>Rang tanla:</span><button data-color="red" class="red"></button><button data-color="yellow" class="yellow"></button><button data-color="green" class="green"></button><button data-color="blue" class="blue"></button></div></div>
 <div class="myTitle"><b>SIZNING KARTALARINGIZ</b><span id="count"></span></div><div id="hand" class="hand"></div></section>
 <div id="toast" class="toast"></div>
-</main><script src="/socket.io/socket.io.js"></script><script src="game.js"></script></body></html>
+</main><script src="/socket.io/socket.io.js">
+  <script>
+const tg = window.Telegram.WebApp;
+
+tg.ready();
+tg.expand();
+
+const user = tg.initDataUnsafe?.user;
+const nameInput = document.getElementById("name");
+
+if (user && nameInput) {
+    nameInput.value = user.first_name || "Player";
+}
+</script>
+</script><script src="game.js"></script></body></html>
