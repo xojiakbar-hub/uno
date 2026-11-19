@@ -6,7 +6,13 @@ $("create").onclick=()=>socket.emit("createRoom",{name:name()});
 $("join").onclick=()=>socket.emit("joinRoom",{code:$("roomCode").value,name:name()});
 $("start").onclick=()=>socket.emit("startGame");
 $("draw").onclick=()=>socket.emit("drawCard");
-$("restart").onclick=()=>location.reload();
+$("restart").onclick=()=>{
+  if(state?.winner){
+    socket.emit("restartGame");
+  } else {
+    location.reload();
+  }
+};
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("codeText").textContent);toast("Xona kodi nusxalandi!")}catch(e){toast("Kod: "+$("codeText").textContent)}};
 socket.on("connect",()=>myId=socket.id);
 socket.on("joined",({code,host})=>{show("lobby",false);show("roomPanel",true);$("codeText").textContent=code;show("start",host);});
